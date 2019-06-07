@@ -22,7 +22,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+require 'query_generator'
+
+TABLE_NAME = 'products'.freeze
+table = QueryGenerator::Table.new(TABLE_NAME)
+table.select.where(
+  [:user_id, :eq, 1]
+).to_s
+# => SELECT * FROM products WHERE user_id = 1
+```
 
 ## Development
 
