@@ -80,6 +80,7 @@ module QueryGenerator
 
     def parse_cond(s_exp)
       case car(s_exp)
+      when :is then "IS #{parse_type(car(cdr(s_exp)))}"
       when :eq then "= #{parse_type(car(cdr(s_exp)))}"
       when :not_eq then "!= #{parse_type(car(cdr(s_exp)))}"
       when :in then "IN #{parse_in(cdr(s_exp))}"
