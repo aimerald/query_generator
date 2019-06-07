@@ -49,6 +49,27 @@ RSpec.describe QueryGenerator do
 
   it 'to_s raise error when does not use where stmt when strict mode' do
     table = QueryGenerator::Table.new('products')
-    expect { table.select.to_s }.to raise_error(StandardError)
+    expect { table.select.to_s }.to raise_error(QueryGenerator::StrictModeError)
+  end
+
+  it 'run raise error when does not use where stmt when strict mode' do
+    table = QueryGenerator::Table.new('products')
+    expect { table.select.run }.to raise_error(QueryGenerator::StrictModeError)
+  end
+
+  it 'select raise error when using select duplicate' do
+    table = QueryGenerator::Table.new('products', strict: false)
+    table.select
+    expect { table.select }.to raise_error(QueryGenerator::SelectAlreadyUsed)
+  end
+
+  it 'or raise error when does not use where before or using' do
+    table = QueryGenerator::Table.new('products', strict: false)
+    expect { table.or() }.to raise_error(QueryGenerator::WhereDoesNotUsed)
+  end
+
+  it 'order_by raise error when differenct asc or desc' do
+    table = QueryGenerator::Table.new('products', strict: false)
+    expect { table.select.order_by(:id, :aaa) }.to raise_error(QueryGenerator::NotIncludeType)
   end
 end

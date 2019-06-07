@@ -10,7 +10,7 @@ module QueryGenerator
     end
 
     def select(*columns)
-      raise StandardError if select_used
+      raise SelectAlreadyUsed if select_used
 
       @query = "SELECT #{result_columns(columns)} FROM #{table}"
       @select_used = true
@@ -29,7 +29,7 @@ module QueryGenerator
 
     def or(*conds)
       # NOTE: OR句はWHERE句のあとに使うので単独では使わせない
-      raise StandardError unless where_used
+      raise WhereDoesNotUsed unless where_used
 
       @query += " OR #{expand_conds(conds, 'OR')}"
       self
@@ -41,19 +41,19 @@ module QueryGenerator
     end
 
     def order_by(by, order_type = :ASC)
-      raise StandardError unless [:ASC, :DESC].include?(order_type.upcase)
+      raise NotIncludeType unless [:ASC, :DESC].include?(order_type.upcase)
 
       @query += " ORDER BY #{by} #{order_type.upcase}"
       self
     end
 
     def run
-      raise StandardError if !where_used && strict
+      raise StrictModeError if !where_used && strict
       # FIXME:　各DBへSQLを実行しその結果を取得する
     end
 
     def to_s
-      raise StandardError if !where_used && strict
+      raise StrictModeError if !where_used && strict
 
       puts query
     end
