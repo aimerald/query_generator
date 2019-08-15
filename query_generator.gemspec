@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.name          = "query_generator"
   spec.version       = QueryGenerator::VERSION
   spec.authors       = ["aimerald"]
-  spec.email         = ["aimerald3@gmail.com"]
+  spec.email         = [""]
 
   spec.summary       = %q{Generate Standard SQL Query}
   spec.description   = %q{Generate Standard Sql query}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/aimerald/query_generator"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
